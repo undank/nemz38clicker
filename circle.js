@@ -45,6 +45,7 @@ function startGame() {
     Tone.start();
     circles = []; 
     score = 0; 
+	misses = 0;
     lives = 3; 
     startTime = Date.now();
     lastCircleTimes = [Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now()];
