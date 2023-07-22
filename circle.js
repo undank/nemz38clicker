@@ -46,7 +46,7 @@ function startGame() {
     circles = []; 
     score = 0; 
 	misses = 0;
-    lives = 3; 
+    lives = 5; 
     startTime = Date.now();
     lastCircleTimes = [Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now()];
     circleIntervals = [1100, 1900, 6000, 9800, 14800, 18000];
@@ -73,6 +73,10 @@ function checkForHit(mousePos) {
     if (!hit) {	// If no circle was hit, consider it a missclick and decrease score
         //score -= 1;
         misses += 1;
+		if (misses % 10 === 0) {  // Every 10 miss-clicks
+            lives -= 1;  // Lose a life
+            playSound('sounds/miss1.mp3');  // Play a missclick sound
+        }
     }
 }
 
