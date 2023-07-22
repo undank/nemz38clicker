@@ -3,6 +3,7 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
 var score = 0;
+var highScore = 0;
 var lives = 3;
 var startTime = Date.now();
 var lastCircleTimes = [Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now()];
@@ -81,8 +82,10 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < lives; i++) { ctx.drawImage(lifeImage, canvas.width / 2 - 30 * lives + i * 60, 10, 50, 50); }
     ctx.fillStyle = 'red'; 
-    ctx.font = '36px serif'; 
-    ctx.fillText('Score: ' + score, 10, 50);
+    ctx.font = '36px arial'; 
+    ctx.fillText('HIGH SCORE: ' + highScore, 10, 50);
+	ctx.fillStyle = 'blue'; 
+	ctx.fillText('SCORE: ' + score, 10, 90);
 
     circles.forEach(function(circle, index) {
         var age = (Date.now() - circle.time) / 1000;
@@ -98,7 +101,7 @@ function draw() {
 }
 
 function gameLoop() { 
-    pitchShift.pitch = score * 0.05;
+    pitchShift.pitch = score * 0.07;
     var currentTime = Date.now();
     for (var i = 0; i < 6; i++) { 
         if (currentTime - lastCircleTimes[i] >= circleIntervals[i]) {
@@ -111,6 +114,9 @@ function gameLoop() {
     if (lives > 0) { 
         requestAnimationFrame(gameLoop); 
     } else { 
+		if (score > highScore) {
+			highScore = score;
+		}
         drawMessage("GAME OVER"); 
         playSound(gameOverSounds[Math.floor(Math.random() * hurtSounds.length)]); 
         document.getElementById('startButton').style.display = 'block'; 
