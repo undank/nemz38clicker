@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Click the Nemz38</title>
+		<style>
+            #myCanvas {
+                border: 2px solid black;
+                display: none;
+            }
+
+            #startButton, #muteButton {
+                position: absolute;
+                padding: 20px;
+                font-size: 24px;
+            }
+
+            #startButton {
+                top: 55%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            #muteButton {
+                top: 10px;
+                right: 10px;
+            }
+
+            #title {
+                text-align: center;
+                font-size: 48px;
+				font-family: Arial;
+                margin-top: 10%;
+            }
+			#sub {
+                text-align: center;
+                font-size: 20px;
+				font-family: Arial;
+            }
+			.container {
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+			}
+			#legion1 {
+				top: 50%;
+				padding:50px;
+
+            }
+			#legion2 {
+				top: 50%;
+				padding:50px;
+            }
+        </style>
+	</head>
+	<body>
+		<h1 id="title">Click the Nemz38</h1>
+		<h3 id="sub">Use Mouse to click on the emotes<h3>
+		<button id="startButton">Start Game</button>
+		<div class="container">
+			<canvas id="myCanvas" width="960" height="640"></canvas>
+		</div>
+		<img id="legion1" src="images/legion.png" style="float:right"></img>
+		<img id="legion2" src="images/legion.png" style="float:left"></img>
+		<button id="muteButton">Mute</button>
+		<script src="tone.js"></script>
+		<script src="circle.js"></script>
+	</body>
+</html>
