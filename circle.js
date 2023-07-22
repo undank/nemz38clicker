@@ -2,8 +2,9 @@
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 var circles = [];
-var score = 0;
 var highScore = 0;
+var score = 0;
+var misses = 0;
 var lives = 3;
 var startTime = Date.now();
 var lastCircleTimes = [Date.now(), Date.now(), Date.now(), Date.now(), Date.now(), Date.now()];
@@ -57,15 +58,21 @@ function getMousePos(canvas, evt) {
 }
 
 function checkForHit(mousePos) { 
+	var hit = false;
     circles.forEach(function(circle, index) {
         if (Math.hypot(circle.x - mousePos.x, circle.y - mousePos.y) < circle.radius) {
-            score += 1;
+            hit = true;
+			score += 1;
             circles.splice(index, 1);
             pitchShift.pitch = score / 2; 
             player.load(clickSounds[Math.floor(Math.random() * clickSounds.length)]); 
             player.start();
         }
     });
+    if (!hit) {	// If no circle was hit, consider it a missclick and decrease score
+        //score -= 1;
+        misses += 1;
+    }
 }
 
 function newCircle() { 
@@ -81,11 +88,13 @@ function newCircle() {
 function draw() { 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < lives; i++) { ctx.drawImage(lifeImage, canvas.width / 2 - 30 * lives + i * 60, 10, 50, 50); }
-    ctx.fillStyle = 'red'; 
+    ctx.fillStyle = 'green'; 
     ctx.font = '36px arial'; 
     ctx.fillText('HIGH SCORE: ' + highScore, 10, 50);
 	ctx.fillStyle = 'blue'; 
 	ctx.fillText('SCORE: ' + score, 10, 90);
+	ctx.fillStyle = 'red'; 
+	ctx.fillText('MISSES: ' + misses, 10, 130);
 
     circles.forEach(function(circle, index) {
         var age = (Date.now() - circle.time) / 1000;
@@ -101,13 +110,13 @@ function draw() {
 }
 
 function gameLoop() { 
-    pitchShift.pitch = score * 0.07;
+    pitchShift.pitch = score * 0.04;
     var currentTime = Date.now();
     for (var i = 0; i < 6; i++) { 
         if (currentTime - lastCircleTimes[i] >= circleIntervals[i]) {
             newCircle();
             lastCircleTimes[i] = currentTime;
-            circleIntervals[i] -= (Math.random() * 15).toFixed(2); 
+            circleIntervals[i] -= (Math.random() * 10).toFixed(2); 
         }
     }
     draw();
